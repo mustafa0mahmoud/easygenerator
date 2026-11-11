@@ -1,11 +1,5 @@
-import { useNavigate } from 'react-router';
-import { Button } from '../../../components/ui/Button.tsx';
-import { FormMessage } from '../../../components/ui/FormMessage.tsx';
 import { Owl } from '../../../components/ui/owl/Owl.tsx';
 import { useFocusOnMount } from '../../../components/ui/useFocusOnMount.ts';
-import { toUserMessage } from '../../../lib/http/index.ts';
-import { PATHS } from '../../../routes/paths.ts';
-import { useSignOut } from '../../auth/index.ts';
 
 const TITLE = 'Welcome to the application.';
 const LETTER_DELAY_MS = 45;
@@ -24,12 +18,10 @@ const WORDS = TITLE.split(' ').reduce<{ letter: string; index: number }[][]>(
 
 /** The page behind sign-in. Each letter of the title drops in and bounces. */
 export default function WelcomePage() {
-  const navigate = useNavigate();
-  const signOut = useSignOut();
   const titleRef = useFocusOnMount<HTMLHeadingElement>();
 
   return (
-    <main className="flex min-h-dvh flex-col items-center px-4 pt-[14vh] pb-10 text-center">
+    <main className="flex flex-col items-center px-4 pt-[14vh] pb-10 text-center">
       <title>Welcome · Account</title>
       <Owl className="mb-6" />
       {/* Screen readers get the sentence once; the letters are decoration. */}
@@ -60,22 +52,6 @@ export default function WelcomePage() {
         aria-hidden="true"
         className="mt-2.5 h-0.5 w-[min(520px,86%)] rounded-sm bg-line"
       />
-      <div className="mt-[26px] flex flex-col items-center gap-3">
-        <Button
-          variant="secondary"
-          loading={signOut.isPending}
-          onClick={() =>
-            signOut.mutate(undefined, {
-              onSuccess: () => navigate(PATHS.signIn, { replace: true }),
-            })
-          }
-        >
-          Log out
-        </Button>
-        {signOut.isError && (
-          <FormMessage tone="error">{toUserMessage(signOut.error)}</FormMessage>
-        )}
-      </div>
     </main>
   );
 }

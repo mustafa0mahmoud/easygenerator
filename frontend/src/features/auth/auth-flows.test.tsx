@@ -220,7 +220,10 @@ describe('sign out', () => {
     });
     const { user } = renderApp('/');
 
-    await user.click(await screen.findByRole('button', { name: 'Log out' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'Account menu' }),
+    );
+    await user.click(screen.getByRole('menuitem', { name: 'Log out' }));
 
     expect(await heading('Sign in')).toBeInTheDocument();
     expect(api.bodiesOf('POST /auth/logout')).toHaveLength(1);
@@ -233,7 +236,10 @@ describe('sign out', () => {
     });
     const { user } = renderApp('/');
 
-    await user.click(await screen.findByRole('button', { name: 'Log out' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'Account menu' }),
+    );
+    await user.click(screen.getByRole('menuitem', { name: 'Log out' }));
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       'Something went wrong on our side.',

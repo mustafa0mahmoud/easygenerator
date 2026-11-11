@@ -70,6 +70,10 @@ Field rules (enforced by the API, whatever the client does):
   one special character (anything that is not a letter, digit or whitespace).
 - Unknown properties are rejected.
 
+A user is returned as `id`, `email`, `name` and `createdAt` (ISO 8601, UTC),
+by sign-in and by `GET /users/me`. Nothing else about the account leaves the
+API.
+
 ### Trying the session from the command line
 
 Cookies are HttpOnly, so use a cookie jar:
@@ -285,6 +289,11 @@ the Mongoose model.
   only decide what to show: the API refuses every protected request on its
   own. If the API cannot be reached, the page says so rather than treating
   the visitor as signed out.
+- **Signed-in pages** share a bar with an account menu (Profile, Log out).
+  The menu follows the menu-button pattern: arrow keys, Home and End move
+  between the items, Escape closes it and returns focus to the button, and a
+  press elsewhere closes it. The profile page shows what `GET /users/me`
+  returned, read from the cached session, so it makes no request of its own.
 - **Forms** validate with the same rules as the API (react-hook-form + Zod)
   for instant feedback; the API stays the authority. The submit button is
   disabled while a request is running, so a form cannot be sent twice. API

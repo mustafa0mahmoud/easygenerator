@@ -20,6 +20,7 @@ const EMAIL = 'sara@example.com';
 const PASSWORD = 'Passw0rd!';
 const AUTH = '/api/v1/auth';
 const ME = '/api/v1/users/me';
+const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 interface ParsedCookie {
   value: string;
@@ -140,7 +141,12 @@ describe('Sign-in and session (e2e)', () => {
       }).expect(200);
 
       expect(response.body).toEqual({
-        user: { id: expect.any(String), email: EMAIL, name: 'Sara' },
+        user: {
+          id: expect.any(String),
+          email: EMAIL,
+          name: 'Sara',
+          createdAt: expect.stringMatching(ISO_TIMESTAMP),
+        },
       });
       const cookies = setCookies(response);
       expect(Object.keys(cookies).sort()).toEqual([
@@ -313,7 +319,14 @@ describe('Sign-in and session (e2e)', () => {
         id: expect.any(String),
         email: EMAIL,
         name: 'Sara',
+        createdAt: expect.stringMatching(ISO_TIMESTAMP),
       });
+      // The moment the account was made, not the moment it was asked for.
+      const createdAt = Date.parse(
+        (response.body as { createdAt: string }).createdAt,
+      );
+      expect(createdAt).toBeLessThanOrEqual(Date.now());
+      expect(createdAt).toBeGreaterThan(Date.now() - 60_000);
     });
 
     it('answers 401 in the uniform error shape without a session', async () => {

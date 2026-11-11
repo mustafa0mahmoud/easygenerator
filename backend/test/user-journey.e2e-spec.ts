@@ -63,6 +63,7 @@ describe('User journey (e2e)', () => {
       id: expect.any(String),
       email: EMAIL,
       name: 'Journey User',
+      createdAt: expect.any(String),
     });
 
     // 5. The session is renewed; the old refresh token is dead afterwards.

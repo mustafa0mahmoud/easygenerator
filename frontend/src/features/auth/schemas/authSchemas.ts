@@ -95,6 +95,8 @@ export const userSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
+  // ISO 8601. Optional so a page loaded before an API release still works.
+  createdAt: z.string().optional(),
 });
 
 export type SignInValues = z.infer<typeof signInSchema>;

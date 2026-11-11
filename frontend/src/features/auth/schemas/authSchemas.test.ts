@@ -64,4 +64,15 @@ describe('auth schemas (the same rules as the API)', () => {
       false,
     );
   });
+
+  it('accepts a user with or without the account creation date', () => {
+    const user = { id: 'u1', email: 'a@b.co', name: 'Sara' };
+
+    expect(userSchema.parse(user)).toEqual(user);
+    expect(
+      userSchema.parse({ ...user, createdAt: '2026-03-09T12:00:00.000Z' })
+        .createdAt,
+    ).toBe('2026-03-09T12:00:00.000Z');
+    expect(userSchema.safeParse({ ...user, createdAt: 1 }).success).toBe(false);
+  });
 });

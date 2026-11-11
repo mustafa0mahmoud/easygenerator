@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router';
 import { PageLoader } from '../components/ui/PageLoader.tsx';
 import { authPages } from '../features/auth/index.ts';
 import { homePages } from '../features/home/index.ts';
+import { AppLayout } from './AppLayout.tsx';
 import { GuestOnly, RequireAuth } from './guards.tsx';
 import { PATHS } from './paths.ts';
 import { RootLayout } from './RootLayout.tsx';
@@ -28,7 +29,15 @@ export const routes: RouteObject[] = [
     children: [
       {
         Component: RequireAuth,
-        children: [{ path: PATHS.home, lazy: lazyPage(homePages.welcome) }],
+        children: [
+          {
+            Component: AppLayout,
+            children: [
+              { path: PATHS.home, lazy: lazyPage(homePages.welcome) },
+              { path: PATHS.profile, lazy: lazyPage(homePages.profile) },
+            ],
+          },
+        ],
       },
       {
         Component: GuestOnly,

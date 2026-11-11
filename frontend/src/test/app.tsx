@@ -12,7 +12,12 @@ type Handler = Reply | ((body: unknown) => Reply | Promise<Reply>);
 /** Routes keyed by "METHOD /path-after-/api/v1". */
 export type ApiHandlers = Record<string, Handler>;
 
-export const USER = { id: 'u1', email: 'sara@example.com', name: 'Sara' };
+export const USER = {
+  id: 'u1',
+  email: 'sara@example.com',
+  name: 'Sara',
+  createdAt: '2026-03-09T12:00:00.000Z',
+};
 
 export const apiError = (
   statusCode: number,

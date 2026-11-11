@@ -16,6 +16,7 @@ function toRecord(user: LeanUser): UserRecord {
     email: user.email,
     name: user.name,
     emailVerifiedAt: user.emailVerifiedAt ?? null,
+    createdAt: user.createdAt,
   };
 }
 

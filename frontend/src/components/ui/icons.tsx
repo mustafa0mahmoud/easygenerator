@@ -21,6 +21,19 @@ export const UserIcon = () => (
   </Icon>
 );
 
+export const MenuIcon = () => (
+  <Icon>
+    <path d="M4 7h16M4 12h16M4 17h16" />
+  </Icon>
+);
+
+export const LogOutIcon = () => (
+  <Icon>
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <path d="m16 17 5-5-5-5M21 12H9" />
+  </Icon>
+);
+
 export const MailIcon = () => (
   <Icon>
     <rect x="3" y="5" width="18" height="14" rx="2" />

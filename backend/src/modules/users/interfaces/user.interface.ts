@@ -6,6 +6,7 @@ export interface UserRecord {
   email: string;
   name: string;
   emailVerifiedAt: Date | null;
+  createdAt: Date;
 }
 
 export interface NewUser {
@@ -25,4 +26,6 @@ export interface LeanUser {
   email: string;
   name: string;
   emailVerifiedAt?: Date | null;
+  /** Written by Mongoose (`timestamps: true`) when the document is created. */
+  createdAt: Date;
 }

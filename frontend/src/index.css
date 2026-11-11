@@ -28,6 +28,7 @@
   --animate-rise: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   --animate-shake: shake 0.42s;
   --animate-drop: drop 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-pop: pop 0.14s ease-out;
 
   @keyframes rise {
     from {
@@ -52,6 +53,18 @@
     }
     80% {
       transform: translateX(3px);
+    }
+  }
+
+  /* A menu opens from just under its button. */
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(-4px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 

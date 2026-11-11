@@ -12,6 +12,7 @@ const user: UserRecord = {
   email: EMAIL,
   name: 'Sara',
   emailVerifiedAt: null,
+  createdAt: new Date('2026-01-01'),
 };
 
 function setup() {

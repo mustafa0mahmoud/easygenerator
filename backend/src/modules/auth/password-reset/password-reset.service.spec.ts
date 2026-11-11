@@ -20,6 +20,7 @@ const verified: UserRecord = {
   email: EMAIL,
   name: 'Sara',
   emailVerifiedAt: new Date('2026-01-01'),
+  createdAt: new Date('2026-01-01'),
 };
 const unverified: UserRecord = { ...verified, emailVerifiedAt: null };
 
