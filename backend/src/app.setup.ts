@@ -3,9 +3,18 @@ import { ConfigService } from '@nestjs/config';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
+import type { RequestHandler } from 'express';
+import helmetImport from 'helmet';
 import type { Env } from './config/env.validation.js';
 import { ACCESS_TOKEN_COOKIE } from './modules/auth/sessions/auth-cookies.js';
+
+// helmet ships separate ESM and CommonJS typings without a "types" export
+// condition. Node always loads the ESM build here, where the default export
+// is the middleware factory, but a type checker that picks the CommonJS
+// typings (Vercel's build does) sees a module namespace and rejects the call.
+// Stating the type once keeps both checkers in agreement; the security-header
+// end-to-end tests cover the runtime behaviour this cast cannot.
+const helmet = helmetImport as unknown as () => RequestHandler;
 
 export const GLOBAL_PREFIX = 'api';
 export const DEFAULT_API_VERSION = '1';
