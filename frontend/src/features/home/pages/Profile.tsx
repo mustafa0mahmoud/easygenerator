@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from 'react';
 import { Link } from 'react-router';
-import { useFocusOnMount } from '../../../components/ui/useFocusOnMount.ts';
+import { useFocusOnMount } from '../../../hooks/useFocusOnMount.ts';
 import { PATHS } from '../../../routes/paths.ts';
 import { useSession } from '../../auth/index.ts';
 import { Avatar } from '../components/Avatar.tsx';
@@ -12,7 +12,6 @@ const DATE_FORMAT = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 });
 
-/** `null` when the value is missing or is not a date. */
 function parseDate(value: string | undefined): Date | null {
   if (!value) return null;
   const date = new Date(value);
@@ -30,7 +29,6 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
   );
 }
 
-/** What the API knows about the signed-in user, read from the cached session. */
 export default function ProfilePage() {
   const { user } = useSession();
   const titleId = useId();

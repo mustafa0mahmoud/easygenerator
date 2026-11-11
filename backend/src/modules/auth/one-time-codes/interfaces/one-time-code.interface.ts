@@ -1,4 +1,3 @@
-/** A code as it is persisted: only its hash, never the digits. */
 export interface StoredCode {
   codeHash: string;
   attempts: number;

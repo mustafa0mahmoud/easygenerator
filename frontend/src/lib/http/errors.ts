@@ -3,13 +3,10 @@ import type {
   NetworkFailureReason,
 } from './interfaces/http.interface.ts';
 
-/** The server answered, and the answer was not a success (4xx or 5xx). */
 export class ApiError extends Error {
   override readonly name = 'ApiError';
   readonly status: number;
-  /** Machine-readable reason, when the API sends one (`email_not_verified`). */
   readonly code: string | undefined;
-  /** Every message the API sent; validation errors carry one per field. */
   readonly details: readonly string[];
   /** Matches the `req.id` in the server logs. */
   readonly requestId: string | undefined;
@@ -23,7 +20,6 @@ export class ApiError extends Error {
   }
 }
 
-/** No usable answer arrived: the server was unreachable or too slow. */
 export class NetworkError extends Error {
   override readonly name = 'NetworkError';
   readonly reason: NetworkFailureReason;

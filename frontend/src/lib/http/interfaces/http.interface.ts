@@ -12,9 +12,7 @@ export interface ApiErrorInit {
 
 export interface RequestOptions {
   method?: HttpMethod;
-  /** Sent as JSON. */
   body?: unknown;
-  /** Lets the caller cancel: a page that unmounts, a query that is replaced. */
   signal?: AbortSignal;
   timeoutMs?: number;
   /**
@@ -27,9 +25,7 @@ export interface RequestOptions {
 export interface HttpClientConfig {
   baseUrl: string;
   timeoutMs: number;
-  /** The endpoint that trades the refresh cookie for a new access cookie. */
   refreshPath: string;
-  /** Replaceable in tests. */
   fetch?: typeof fetch;
 }
 

@@ -134,6 +134,12 @@ was not, grouped by what caught the problem.
 - **A blank setting stopped the API from starting.** Found in the full
   review pass before the first commit: an empty mail key in the
   environment file crashed start-up even when no email was being sent.
+- **A second review after the first submission.** It found four things the
+  first pass had let through: the verify-email form was built differently
+  from the reset-password form although both collect the same code; a
+  shared hook sat in the UI components folder; the front end ran only the
+  template's default lint rules; and many comments restated the code. All
+  four were fixed in one reviewed pull request.
 
 ### Caught by running it for real
 

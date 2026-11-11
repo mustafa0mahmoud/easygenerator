@@ -31,7 +31,6 @@ export function buildLoggerOptions(env: LoggerEnv): Params {
         response.setHeader(REQUEST_ID_HEADER, id);
         return id;
       },
-      // Level names and ISO timestamps instead of pino's numeric defaults.
       formatters: { level: (label: string) => ({ level: label }) },
       timestamp: stdTimeFunctions.isoTime,
       serializers: {

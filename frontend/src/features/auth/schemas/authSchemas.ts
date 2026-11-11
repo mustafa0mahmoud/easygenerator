@@ -90,7 +90,6 @@ export const codeSchema = z.object({ code });
 
 export const resetPasswordSchema = z.object({ code, password: newPassword });
 
-/** What the API says about the signed-in user. Checked, not assumed. */
 export const userSchema = z.object({
   id: z.string(),
   email: z.string(),

@@ -6,7 +6,7 @@ import { Button } from '../../../components/ui/Button.tsx';
 import { FormMessage } from '../../../components/ui/FormMessage.tsx';
 import { MailIcon } from '../../../components/ui/icons.tsx';
 import { TextField } from '../../../components/ui/TextField.tsx';
-import { owlReact } from '../../../components/ui/owl/useOwl.ts';
+import { owlReact } from '../../../components/ui/owl/owlReactions.ts';
 import { toUserMessage } from '../../../lib/http/index.ts';
 import { PATHS } from '../../../routes/paths.ts';
 import { AuthCard } from '../components/AuthCard.tsx';
@@ -22,7 +22,9 @@ import { authApi } from '../services/authApi.ts';
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
   const [cardRef, shake] = useShake<HTMLElement>();
-  const request = useMutation({ mutationFn: authApi.requestPasswordReset });
+  const request = useMutation({
+    mutationFn: (email: string) => authApi.requestPasswordReset(email),
+  });
   const {
     register,
     handleSubmit,

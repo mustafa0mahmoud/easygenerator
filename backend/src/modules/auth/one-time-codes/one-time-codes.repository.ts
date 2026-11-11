@@ -18,7 +18,6 @@ export class OneTimeCodesRepository {
     private readonly codeModel: Model<OneTimeCode>,
   ) {}
 
-  /** Stores `code` as the only live code for this user and purpose. */
   async replace(
     userId: string,
     purpose: OneTimeCodePurpose,

@@ -326,6 +326,7 @@ frontend/
         services/      the auth API calls
       home/            the pages behind sign-in
     components/ui/     shared presentational components
+    hooks/             hooks shared across features
     routes/            route table, layout, error and not-found pages
     lib/http/          the API client and its error types
     lib/query/         server-state cache settings

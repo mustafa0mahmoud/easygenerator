@@ -40,7 +40,6 @@ export class SessionsService {
       config.get('REFRESH_TOKEN_TTL_DAYS', { infer: true }) * MS_PER_DAY;
   }
 
-  /** Starts a session for a user who has just proven who they are. */
   async issue(userId: string): Promise<SessionTokens> {
     const refreshToken = randomBytes(REFRESH_TOKEN_BYTES).toString('base64url');
 
@@ -95,7 +94,6 @@ export class SessionsService {
     return { userId, tokens };
   }
 
-  /** Ends the session a refresh token belongs to. Safe to call with anything. */
   async revoke(refreshToken: unknown): Promise<boolean> {
     if (!this.isWellFormed(refreshToken)) return false;
 
@@ -109,7 +107,6 @@ export class SessionsService {
     return revoked;
   }
 
-  /** Ends every session of a user, for example after a password change. */
   async revokeAllForUser(userId: string): Promise<number> {
     const count = await this.refreshTokens.deleteAllForUser(userId);
     this.logger.debug(

@@ -18,7 +18,6 @@ const PUBLIC = { refreshOn401: false } as const;
 const loginResponseSchema = z.object({ user: userSchema });
 
 export const authApi = {
-  /** The signed-in user, or `null` when nobody is signed in. */
   async currentUser(signal?: AbortSignal): Promise<User | null> {
     try {
       return userSchema.parse(await http.get('/users/me', { signal }));

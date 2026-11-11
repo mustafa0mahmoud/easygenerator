@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { TextField } from '../TextField.tsx';
 import { Owl } from './Owl.tsx';
-import { owlReact } from './useOwl.ts';
+import { owlReact } from './owlReactions.ts';
 
 function Scene() {
   return (

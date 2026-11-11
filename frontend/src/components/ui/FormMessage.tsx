@@ -8,7 +8,6 @@ const TONES = {
   success: 'border-ok/30 bg-ok/10 text-ok',
 } as const;
 
-/** A message about the whole form: a failed request, or a confirmation. */
 export function FormMessage({ tone, children }: FormMessageProps) {
   if (!children) return null;
   return (

@@ -4,7 +4,6 @@ type Variant = 'primary' | 'secondary' | 'ghost';
 
 interface ButtonProps extends ComponentProps<'button'> {
   variant?: Variant;
-  /** Shows a spinner and blocks further clicks while a request is running. */
   loading?: boolean;
 }
 

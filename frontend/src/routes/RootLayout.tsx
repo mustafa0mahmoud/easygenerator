@@ -11,11 +11,13 @@ export function RootLayout() {
   return (
     <>
       {isNavigating && (
-        <div
-          role="progressbar"
-          aria-label="Loading page"
-          className="fixed inset-x-0 top-0 z-50 h-0.5 animate-pulse bg-ink-muted"
-        />
+        <>
+          <progress aria-label="Loading page" className="sr-only" />
+          <div
+            aria-hidden="true"
+            className="fixed inset-x-0 top-0 z-50 h-0.5 animate-pulse bg-ink-muted"
+          />
+        </>
       )}
       <Outlet />
     </>

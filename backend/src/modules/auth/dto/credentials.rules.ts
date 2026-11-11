@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { ONE_TIME_CODE } from '../auth.constants.js';
 
-/** Field limits, shared by every auth request so the rules exist once. */
 export const FIELD_LIMITS = {
   /** Longest address SMTP can route (RFC 5321). */
   EMAIL_MAX: 254,

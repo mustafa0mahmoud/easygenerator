@@ -115,7 +115,6 @@ export class PasswordResetService {
     );
     await this.codes.invalidate(user.id, EMAIL_VERIFICATION);
 
-    // Whoever was signed in with the old password, on any device, is out.
     const sessionsRevoked = await this.sessions.revokeAllForUser(user.id);
 
     this.logger.log(

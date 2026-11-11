@@ -27,12 +27,10 @@ const DEFAULT_ACCESS_TOKEN_TTL_SECONDS = 900;
 const MAX_REFRESH_TOKEN_TTL_DAYS = 90;
 const DEFAULT_REFRESH_TOKEN_TTL_DAYS = 7;
 
-/** scrypt cost bounds accepted by the password hasher (log2 of N). */
 const MIN_PASSWORD_HASH_LOG_N = 10;
 const MAX_PASSWORD_HASH_LOG_N = 20;
 const DEFAULT_PASSWORD_HASH_LOG_N = 17;
 
-/** Comma-separated origins, each exactly `scheme://host[:port]`. */
 const originList = z
   .string()
   .default('')
@@ -85,7 +83,6 @@ export const envSchema = z
       ),
 
     LOG_LEVEL: z.enum(LOG_LEVELS).default('info'),
-    /** Human-readable logs for local development. Production logs stay JSON. */
     LOG_PRETTY: booleanFlag(false),
 
     /**
@@ -99,7 +96,6 @@ export const envSchema = z
 
     SWAGGER_ENABLED: booleanFlag(true),
 
-    /** `console` prints emails to the server log; `brevo` sends real email. */
     MAIL_DRIVER: z.enum(MAIL_DRIVERS).default('console'),
     MAIL_FROM_NAME: z.string().trim().min(1).max(100).default('Auth Task'),
     MAIL_FROM_ADDRESS: z.email().default('no-reply@example.com'),
@@ -113,7 +109,6 @@ export const envSchema = z
         `must be at least ${MIN_SECRET_LENGTH} characters`,
       ),
 
-    /** Signs access tokens (HS256). */
     JWT_ACCESS_SECRET: z
       .string()
       .min(
@@ -128,7 +123,6 @@ export const envSchema = z
     REFRESH_TOKEN_TTL_DAYS: integer(1, MAX_REFRESH_TOKEN_TTL_DAYS).default(
       DEFAULT_REFRESH_TOKEN_TTL_DAYS,
     ),
-    /** `Secure` attribute on the session cookies. Only local HTTP may turn it off. */
     COOKIE_SECURE: booleanFlag(true),
     /**
      * Origins allowed to send state-changing requests besides the API's own.

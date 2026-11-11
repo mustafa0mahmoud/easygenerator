@@ -6,13 +6,11 @@ export const ONE_TIME_CODE = {
   LENGTH: 6,
   /** Short on purpose: a 6-digit code is only safe for a few minutes. */
   TTL_MS: 5 * MS_PER_MINUTE,
-  /** Wrong guesses allowed before the code is destroyed. */
   MAX_ATTEMPTS: 5,
   /** Minimum gap between two codes for the same account, whatever the caller's IP. */
   RESEND_COOLDOWN_MS: MS_PER_MINUTE,
 } as const;
 
-/** Per-IP limits, stricter than the global default. */
 export const AUTH_RATE_LIMITS = {
   signup: { limit: 5, ttl: minutes(1) },
   verifyEmail: { limit: 10, ttl: minutes(1) },
@@ -30,7 +28,6 @@ export const ACCESS_TOKEN = {
   AUDIENCE: 'auth-web',
 } as const;
 
-/** Machine-readable codes for errors the client must react to, not just display. */
 export const AUTH_ERROR_CODES = {
   emailNotVerified: 'email_not_verified',
 } as const;
@@ -43,7 +40,6 @@ export const AUTH_MESSAGES = {
   verificationResent:
     'If this email address is awaiting verification, a new code has been sent to it.',
   emailVerified: 'Email verified. You can now sign in.',
-  /** One message for every verification failure. */
   invalidCode: 'Invalid or expired verification code.',
   /** One message whether the address is unknown or the password is wrong. */
   invalidCredentials: 'Invalid email or password.',
@@ -55,6 +51,5 @@ export const AUTH_MESSAGES = {
     'If this email address has an account, a password reset code has been sent to it.',
   passwordReset:
     'Password changed. You can now sign in with your new password.',
-  /** One message for every reset failure. */
   invalidResetCode: 'Invalid or expired reset code.',
 } as const;

@@ -6,7 +6,7 @@ import { Button } from '../../../components/ui/Button.tsx';
 import { FormMessage } from '../../../components/ui/FormMessage.tsx';
 import { LockIcon, MailIcon, UserIcon } from '../../../components/ui/icons.tsx';
 import { TextField } from '../../../components/ui/TextField.tsx';
-import { owlReact } from '../../../components/ui/owl/useOwl.ts';
+import { owlReact } from '../../../components/ui/owl/owlReactions.ts';
 import { ApiError, toUserMessage } from '../../../lib/http/index.ts';
 import { PATHS } from '../../../routes/paths.ts';
 import { AuthCard } from '../components/AuthCard.tsx';
@@ -22,7 +22,9 @@ const CONFLICT = 409;
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [cardRef, shake] = useShake<HTMLElement>();
-  const signUp = useMutation({ mutationFn: authApi.signUp });
+  const signUp = useMutation({
+    mutationFn: (values: SignUpValues) => authApi.signUp(values),
+  });
   const {
     register,
     handleSubmit,

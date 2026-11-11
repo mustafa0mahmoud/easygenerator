@@ -5,7 +5,6 @@ export type CodePurpose = 'verify-email' | 'reset-password';
 
 const pendingCodeSchema = z.object({
   email: z.string().min(1),
-  /** When the last code was requested; 0 when none was requested from here. */
   sentAt: z.number().nonnegative(),
 });
 
@@ -34,7 +33,6 @@ function write(purpose: CodePurpose, value: PendingCode | null): void {
   }
 }
 
-/** Called by the page that requests a code, before moving to the code page. */
 export function startPendingCode(
   purpose: CodePurpose,
   email: string,

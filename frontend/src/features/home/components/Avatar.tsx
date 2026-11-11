@@ -5,7 +5,6 @@ const SIZES = {
   lg: 'size-16 text-xl max-[480px]:size-[52px] max-[480px]:text-[17px]',
 } as const;
 
-/** A stand-in for a picture. Decoration: the name is always shown next to it. */
 export function Avatar({
   name,
   size = 'sm',

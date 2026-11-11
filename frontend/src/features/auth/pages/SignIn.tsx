@@ -6,7 +6,7 @@ import { Button } from '../../../components/ui/Button.tsx';
 import { FormMessage } from '../../../components/ui/FormMessage.tsx';
 import { LockIcon, MailIcon } from '../../../components/ui/icons.tsx';
 import { TextField } from '../../../components/ui/TextField.tsx';
-import { owlReact } from '../../../components/ui/owl/useOwl.ts';
+import { owlReact } from '../../../components/ui/owl/owlReactions.ts';
 import { ApiError, toUserMessage } from '../../../lib/http/index.ts';
 import { PATHS } from '../../../routes/paths.ts';
 import { AuthCard } from '../components/AuthCard.tsx';
@@ -59,7 +59,6 @@ export default function SignInPage() {
   } = useForm<SignInValues>({ resolver: zodResolver(signInSchema) });
 
   const submit = handleSubmit((values) => {
-    // A second submit while the first is running would be a duplicate request.
     if (signIn.isPending) return;
     signIn.mutate(values, {
       onSuccess: () => {
@@ -80,7 +79,6 @@ export default function SignInPage() {
   }, shake);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    // From the first attempt on, the form speaks only about that attempt.
     dismissNotice();
     void submit(event);
   };

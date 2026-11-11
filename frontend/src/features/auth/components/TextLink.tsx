@@ -1,6 +1,5 @@
 import { Link, type LinkProps } from 'react-router';
 
-/** An inline link in the card's own ink, underlined so it does not rely on colour. */
 export function TextLink({ className = '', ...props }: LinkProps) {
   return (
     <Link

@@ -1,19 +1,17 @@
 import { useId, useState, type ComponentProps, type ReactNode } from 'react';
 import { EyeIcon, EyeOffIcon } from './icons.tsx';
-import { PASSWORD_FIELD_ATTRIBUTE } from './owl/useOwl.ts';
+import { PASSWORD_FIELD_ATTRIBUTE } from './owl/owlReactions.ts';
 
 interface TextFieldProps extends ComponentProps<'input'> {
   label: string;
   icon?: ReactNode;
   error?: string;
-  /** Rendered between the input and its error, such as a rule checklist. */
   children?: ReactNode;
 }
 
 const INPUT =
   'h-[38px] w-full rounded-lg border bg-transparent px-3.5 text-sm transition max-sm:h-11 max-sm:text-base placeholder:text-ink-dim focus:border-ink-muted focus:shadow-[0_0_0_3px_rgba(255,255,255,0.07)] focus:outline-none';
 
-/** A labelled input whose error is announced and tied to the field. */
 export function TextField({
   label,
   icon,

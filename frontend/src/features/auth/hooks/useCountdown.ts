@@ -12,7 +12,7 @@ export function useCountdown(endsAt: number): number {
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
-    if (endsAt <= Date.now()) return;
+    if (endsAt <= Date.now()) return undefined;
 
     const timer = setInterval(() => {
       const current = Date.now();

@@ -1,6 +1,5 @@
 import { PASSWORD_RULES } from '../schemas/authSchemas.ts';
 
-/** A live checklist: each rule lights up as the password satisfies it. */
 export function PasswordRules({ password }: { password: string }) {
   return (
     <ul

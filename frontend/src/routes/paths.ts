@@ -1,4 +1,3 @@
-/** Every URL of the application, in one place. */
 export const PATHS = {
   home: '/',
   profile: '/profile',

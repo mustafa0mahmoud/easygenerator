@@ -10,7 +10,6 @@ import { PATHS } from './paths.ts';
  * session, whatever the browser renders.
  */
 
-/** Pages for signed-in users. Nothing is rendered until the session is known. */
 export function RequireAuth() {
   const { user, isLoading, isError, retry } = useSession();
 
@@ -20,7 +19,6 @@ export function RequireAuth() {
   return <Outlet />;
 }
 
-/** Sign-in, sign-up and the like: a signed-in user is sent to the application. */
 export function GuestOnly() {
   const { user, isLoading } = useSession();
 
@@ -31,7 +29,6 @@ export function GuestOnly() {
   return <Outlet />;
 }
 
-/** The API could not be reached, so "signed out" would be a guess. */
 function SessionUnavailable({ onRetry }: { onRetry: () => void }) {
   return (
     <main

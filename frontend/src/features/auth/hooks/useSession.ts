@@ -9,7 +9,6 @@ import { authApi } from '../services/authApi.ts';
 
 const SESSION_KEY = ['session'] as const;
 
-/** The server is asked again after this long, and whenever the tab regains focus. */
 const SESSION_STALE_MS = 60_000;
 
 /**
@@ -30,7 +29,6 @@ export function useSession() {
   return {
     user: query.data ?? null,
     isLoading: query.isPending,
-    /** The API could not be asked at all (offline, server down). */
     isError: query.isError,
     retry: () => void query.refetch(),
   };
