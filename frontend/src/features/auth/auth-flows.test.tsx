@@ -212,6 +212,75 @@ describe('sign in', () => {
   });
 });
 
+describe('a confirmation carried to the sign-in page', () => {
+  const NOTICE = 'Email verified. You can now sign in.';
+
+  async function arriveWithNotice(handlers = SIGNED_OUT) {
+    const api = mockApi(handlers);
+    const app = renderApp('/sign-up');
+    await heading('Create your account');
+    await app.router.navigate('/sign-in', { state: { notice: NOTICE } });
+    expect(await screen.findByRole('status')).toHaveTextContent(NOTICE);
+    return { ...app, api };
+  }
+
+  it('disappears on the first attempt and never returns with an error', async () => {
+    let answer: () => void = () => {};
+    const { user } = await arriveWithNotice({
+      ...SIGNED_OUT,
+      'POST /auth/login': () =>
+        new Promise((resolve) => {
+          answer = () => resolve(apiError(401, 'Invalid email or password.'));
+        }),
+    });
+
+    await user.type(screen.getByLabelText('Email'), USER.email);
+    await user.type(screen.getByLabelText('Password'), VALID_PASSWORD);
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
+    // While the request is running there is no message at all.
+    await waitFor(() => expect(screen.queryByRole('status')).toBeNull());
+    answer();
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Invalid email or password.',
+    );
+
+    // A second attempt clears the error; the old confirmation stays gone.
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
+    await waitFor(() => expect(screen.queryByRole('alert')).toBeNull());
+    expect(screen.queryByText(NOTICE)).toBeNull();
+    answer();
+    expect(await screen.findByRole('alert')).toBeInTheDocument();
+    expect(screen.queryByText(NOTICE)).toBeNull();
+  });
+
+  it('disappears on an attempt the form itself rejects', async () => {
+    const { user } = await arriveWithNotice();
+
+    await user.type(screen.getByLabelText('Email'), 'not-an-email');
+    await user.click(screen.getByRole('button', { name: 'Sign in' }));
+
+    expect(
+      await screen.findByText('Enter a valid email address'),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(NOTICE)).toBeNull();
+  });
+
+  it('is removed from the history entry, so coming back does not show it', async () => {
+    const { user, router } = await arriveWithNotice();
+
+    await waitFor(() => expect(router.state.location.state).toBeNull());
+    // Still on screen for this visit.
+    expect(screen.getByRole('status')).toHaveTextContent(NOTICE);
+
+    await user.click(screen.getByRole('link', { name: 'Forgot password?' }));
+    await heading('Forgot your password?');
+    await router.navigate(-1);
+
+    await heading('Sign in');
+    expect(screen.queryByText(NOTICE)).toBeNull();
+  });
+});
+
 describe('sign out', () => {
   it('ends the session and returns to the sign-in page', async () => {
     const api = mockApi({

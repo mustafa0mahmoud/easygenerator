@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router';
 import { Button } from '../../../components/ui/Button.tsx';
@@ -17,17 +18,38 @@ import { signInSchema, type SignInValues } from '../schemas/authSchemas.ts';
 
 const EMAIL_NOT_VERIFIED = 'email_not_verified';
 
-/** A confirmation handed over by the page that sent the user here. */
-function useNotice(): string | null {
-  const state: unknown = useLocation().state;
+function readNotice(state: unknown): string | null {
   if (typeof state !== 'object' || state === null) return null;
   const notice = (state as { notice?: unknown }).notice;
   return typeof notice === 'string' ? notice : null;
 }
 
+/**
+ * A confirmation handed over by the page that sent the user here ("Email
+ * verified", "Password changed"). It is shown once: the copy in the history
+ * entry is removed as soon as it has been read, so a reload or a later visit
+ * does not bring it back, and the caller dismisses it on the first attempt.
+ */
+function useNoticeOnce(): [notice: string | null, dismiss: () => void] {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [notice, setNotice] = useState(() => readNotice(location.state));
+
+  useEffect(() => {
+    if (readNotice(location.state) === null) return;
+    // Replaces the current entry, so the Back button behaves as before.
+    void navigate(
+      { pathname: location.pathname, search: location.search },
+      { replace: true, state: null },
+    );
+  }, [location, navigate]);
+
+  return [notice, () => setNotice(null)];
+}
+
 export default function SignInPage() {
   const navigate = useNavigate();
-  const notice = useNotice();
+  const [notice, dismissNotice] = useNoticeOnce();
   const signIn = useSignIn();
   const [cardRef, shake] = useShake<HTMLElement>();
   const {
@@ -36,7 +58,7 @@ export default function SignInPage() {
     formState: { errors },
   } = useForm<SignInValues>({ resolver: zodResolver(signInSchema) });
 
-  const onSubmit = handleSubmit((values) => {
+  const submit = handleSubmit((values) => {
     // A second submit while the first is running would be a duplicate request.
     if (signIn.isPending) return;
     signIn.mutate(values, {
@@ -56,6 +78,12 @@ export default function SignInPage() {
       },
     });
   }, shake);
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    // From the first attempt on, the form speaks only about that attempt.
+    dismissNotice();
+    void submit(event);
+  };
 
   return (
     <AuthCard

@@ -16,10 +16,10 @@
   --color-danger: #ff8080;
   --color-ok: #7fe0b0;
 
-  /* The owl mark, drawn in the wall's own greys. */
-  --color-feather: #262320;
-  --color-feather-lit: #38342e;
-  --color-belly: #302c27;
+  /* The owl mark: tawny feathers and a cream belly, close to the ink. */
+  --color-feather: #7a5a3c;
+  --color-feather-lit: #96724d;
+  --color-belly: #e7d6b8;
 
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
