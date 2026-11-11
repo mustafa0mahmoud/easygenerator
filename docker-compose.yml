@@ -2,7 +2,9 @@ name: easygenerator-task
 
 services:
   mongo:
-    image: mongo:8
+    # 7, not 8: MongoDB 8 refuses to start on hosts running Linux 6.19 or
+    # newer (SERVER-121912). 7.0 is supported and unaffected.
+    image: mongo:7
     restart: unless-stopped
     # Published on the loopback interface only: reachable from this machine
     # for local development, never from the network.
