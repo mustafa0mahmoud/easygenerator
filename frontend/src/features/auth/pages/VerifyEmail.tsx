@@ -1,5 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { useState, type FormEvent } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router';
 import { Button } from '../../../components/ui/Button.tsx';
 import { FormMessage } from '../../../components/ui/FormMessage.tsx';
@@ -12,19 +13,26 @@ import { ResendTimer } from '../components/ResendTimer.tsx';
 import { TextLink } from '../components/TextLink.tsx';
 import { usePendingCode } from '../hooks/usePendingCode.ts';
 import { useShake } from '../hooks/useShake.ts';
-import { codeSchema } from '../schemas/authSchemas.ts';
+import { codeSchema, type CodeValues } from '../schemas/authSchemas.ts';
 import { authApi } from '../services/authApi.ts';
 
 export default function VerifyEmailPage() {
   const navigate = useNavigate();
   const { pending, markSent, clear } = usePendingCode('verify-email');
   const [cardRef, shake] = useShake<HTMLElement>();
-  const [code, setCode] = useState('');
-  const [codeError, setCodeError] = useState<string | null>(null);
+  const {
+    handleSubmit,
+    control,
+    resetField,
+    formState: { errors },
+  } = useForm<CodeValues>({
+    resolver: zodResolver(codeSchema),
+    defaultValues: { code: '' },
+  });
 
   const verify = useMutation({
-    mutationFn: (value: string) =>
-      authApi.verifyEmail(pending?.email ?? '', value),
+    mutationFn: (values: CodeValues) =>
+      authApi.verifyEmail(pending?.email ?? '', values.code),
   });
   const resend = useMutation({
     mutationFn: () => authApi.resendVerification(pending?.email ?? ''),
@@ -34,18 +42,9 @@ export default function VerifyEmailPage() {
   // Reached without an address to verify (a bookmark, a new tab).
   if (!pending) return <Navigate to={PATHS.signUp} replace />;
 
-  const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
+  const onSubmit = handleSubmit((values) => {
     if (verify.isPending) return;
-
-    const parsed = codeSchema.safeParse({ code });
-    if (!parsed.success) {
-      setCodeError(parsed.error.issues[0].message);
-      shake();
-      return;
-    }
-    setCodeError(null);
-    verify.mutate(parsed.data.code, {
+    verify.mutate(values, {
       onSuccess: () => {
         owlReact('yes');
         clear();
@@ -55,14 +54,13 @@ export default function VerifyEmailPage() {
         });
       },
       onError: () => {
-        setCode('');
+        resetField('code');
         shake();
       },
     });
-  };
+  }, shake);
 
-  const error =
-    codeError ??
+  const requestError =
     (verify.isError ? toUserMessage(verify.error) : null) ??
     (resend.isError ? toUserMessage(resend.error) : null);
 
@@ -86,23 +84,33 @@ export default function VerifyEmailPage() {
       }
     >
       <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4">
-        {error ? (
-          <FormMessage tone="error">{error}</FormMessage>
+        {requestError ? (
+          <FormMessage tone="error">{requestError}</FormMessage>
         ) : (
           <FormMessage tone="success">
             {resend.isSuccess ? 'A new code is on its way.' : null}
           </FormMessage>
         )}
-        <CodeInput
-          label="Verification code"
-          value={code}
-          onChange={(value) => {
-            setCode(value);
-            setCodeError(null);
-          }}
-          invalid={Boolean(codeError) || verify.isError}
-          disabled={verify.isPending}
-        />
+        <div className="flex flex-col gap-1.5">
+          <Controller
+            control={control}
+            name="code"
+            render={({ field }) => (
+              <CodeInput
+                label="Verification code"
+                value={field.value}
+                onChange={field.onChange}
+                invalid={Boolean(errors.code) || verify.isError}
+                disabled={verify.isPending}
+              />
+            )}
+          />
+          {errors.code && (
+            <span role="alert" className="text-[13px] text-danger">
+              {errors.code.message}
+            </span>
+          )}
+        </div>
         <Button type="submit" loading={verify.isPending} className="mt-1.5">
           Verify email
         </Button>
