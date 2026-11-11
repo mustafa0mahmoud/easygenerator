@@ -17,7 +17,9 @@ concurrency:
 jobs:
   backend:
     name: Backend (lint, build, tests)
-    runs-on: ubuntu-latest
+    # Pinned: the MongoDB 8 image refuses to start on the newer kernel of
+    # ubuntu-latest (Linux 6.19+), so the service container never comes up.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     defaults:
       run:
