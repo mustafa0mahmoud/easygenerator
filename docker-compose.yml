@@ -1,0 +1,39 @@
+name: easygenerator-task
+
+services:
+  mongo:
+    image: mongo:8
+    restart: unless-stopped
+    # Published on the loopback interface only: reachable from this machine
+    # for local development, never from the network.
+    ports:
+      - '127.0.0.1:27017:27017'
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      # Inside the Compose network the database is reached by service name.
+      MONGODB_URI: mongodb://mongo:27017/easygenerator
+      PORT: '3000'
+      # The runtime image has no dev dependencies, so logs stay JSON.
+      LOG_PRETTY: 'false'
+    ports:
+      - '127.0.0.1:3000:3000'
+
+volumes:
+  mongo-data:
