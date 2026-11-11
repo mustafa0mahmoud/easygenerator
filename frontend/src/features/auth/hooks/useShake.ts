@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { owlReact } from '../../../components/ui/owl/useOwl.ts';
+import { owlReact } from '../../../components/ui/owl/owlReactions.ts';
 
 const SHAKE_CLASS = 'animate-shake';
 

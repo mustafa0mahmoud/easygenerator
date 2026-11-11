@@ -1,6 +1,6 @@
 import { useId, useState, type ComponentProps, type ReactNode } from 'react';
 import { EyeIcon, EyeOffIcon } from './icons.tsx';
-import { PASSWORD_FIELD_ATTRIBUTE } from './owl/useOwl.ts';
+import { PASSWORD_FIELD_ATTRIBUTE } from './owl/owlReactions.ts';
 
 interface TextFieldProps extends ComponentProps<'input'> {
   label: string;

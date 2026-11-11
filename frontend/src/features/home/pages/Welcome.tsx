@@ -1,5 +1,5 @@
 import { Owl } from '../../../components/ui/owl/Owl.tsx';
-import { useFocusOnMount } from '../../../components/ui/useFocusOnMount.ts';
+import { useFocusOnMount } from '../../../hooks/useFocusOnMount.ts';
 
 const TITLE = 'Welcome to the application.';
 const LETTER_DELAY_MS = 45;

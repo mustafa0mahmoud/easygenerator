@@ -1,6 +1,6 @@
 import { useId, type ReactNode, type Ref } from 'react';
 import { Owl } from '../../../components/ui/owl/Owl.tsx';
-import { useFocusOnMount } from '../../../components/ui/useFocusOnMount.ts';
+import { useFocusOnMount } from '../../../hooks/useFocusOnMount.ts';
 
 interface AuthCardProps {
   title: string;

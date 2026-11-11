@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from 'react';
 import { Link } from 'react-router';
-import { useFocusOnMount } from '../../../components/ui/useFocusOnMount.ts';
+import { useFocusOnMount } from '../../../hooks/useFocusOnMount.ts';
 import { PATHS } from '../../../routes/paths.ts';
 import { useSession } from '../../auth/index.ts';
 import { Avatar } from '../components/Avatar.tsx';
