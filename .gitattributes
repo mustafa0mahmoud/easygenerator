@@ -1,0 +1,2 @@
+# Keep LF line endings everywhere so files behave the same inside containers.
+* text=auto eol=lf
