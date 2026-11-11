@@ -148,10 +148,6 @@ Three things differ from local on purpose:
   512 MB of memory and scrypt at 2^17 takes about 128 MiB per hash; this is a
   limit of the free tier, not a recommendation.
 
-To deploy your own copy: create the Blueprint on Render, change the host in
-`frontend/vercel.json` to your service's address, then import the repository
-on Vercel with `frontend` as the root directory.
-
 ## Logging and debugging
 
 Logs are JSON lines. Every line written while handling a request carries that
