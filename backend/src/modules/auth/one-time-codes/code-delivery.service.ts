@@ -10,7 +10,6 @@ import type { OneTimeCodePurpose } from './schemas/one-time-code.schema.js';
 
 const MS_PER_MINUTE = 60_000;
 
-/** The email that carries each kind of code, and how its delivery is logged. */
 const DELIVERIES: Record<OneTimeCodePurpose, Delivery> = {
   email_verification: {
     mail: VerificationCodeMail,
@@ -24,10 +23,6 @@ const DELIVERIES: Record<OneTimeCodePurpose, Delivery> = {
   },
 };
 
-/**
- * Emails a one-time code to its owner, for every purpose a code can have.
- * Adding a new kind of code means adding one entry to `DELIVERIES`.
- */
 @Injectable()
 export class CodeDeliveryService {
   private readonly logger = new Logger(CodeDeliveryService.name);

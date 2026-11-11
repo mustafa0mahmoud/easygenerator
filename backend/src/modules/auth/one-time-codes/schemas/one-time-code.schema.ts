@@ -19,7 +19,6 @@ export class OneTimeCode {
   @Prop({ type: String, required: true })
   codeHash: string;
 
-  /** Wrong guesses so far. The code is destroyed when the limit is reached. */
   @Prop({ type: Number, required: true, default: 0 })
   attempts: number;
 

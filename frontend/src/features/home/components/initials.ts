@@ -1,4 +1,3 @@
-/** First letters of the first and last word of a name, in upper case. */
 export function initialsOf(name: string): string {
   const words = name.trim().split(/\s+/).filter(Boolean);
   const first = words[0];

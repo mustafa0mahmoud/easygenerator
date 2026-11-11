@@ -7,7 +7,6 @@ import {
 import { FIELD_LIMITS } from '../schemas/authSchemas.ts';
 
 interface CodeInputProps {
-  /** The digits typed so far, in order. */
   value: string;
   onChange: (value: string) => void;
   label: string;
@@ -18,11 +17,6 @@ interface CodeInputProps {
 const LENGTH = FIELD_LIMITS.CODE_LENGTH;
 const digitsOnly = (text: string) => text.replace(/\D/g, '').slice(0, LENGTH);
 
-/**
- * Six boxes that behave like one field: typing advances, Backspace goes
- * back, the arrow keys move, and a pasted or auto-filled code fills every
- * box at once. Anything that is not a digit is ignored.
- */
 export function CodeInput({
   value,
   onChange,

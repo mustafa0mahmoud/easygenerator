@@ -57,7 +57,6 @@ const MONGO_SERVER_SELECTION_TIMEOUT_MS = 5000;
     // Global guards run in this order: rate limit first, so unauthenticated
     // floods are cut off before any token is verified.
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    // Every route requires a valid access token unless marked @Public().
     { provide: APP_GUARD, useClass: AccessTokenGuard },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],

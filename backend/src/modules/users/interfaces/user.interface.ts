@@ -15,17 +15,14 @@ export interface NewUser {
   passwordHash: string;
 }
 
-/** A user together with the stored password hash. Only sign-in needs this. */
 export interface UserCredentials extends UserRecord {
   passwordHash: string;
 }
 
-/** A user document as MongoDB returns it, before it is mapped to a `UserRecord`. */
 export interface LeanUser {
   _id: Types.ObjectId;
   email: string;
   name: string;
   emailVerifiedAt?: Date | null;
-  /** Written by Mongoose (`timestamps: true`) when the document is created. */
   createdAt: Date;
 }

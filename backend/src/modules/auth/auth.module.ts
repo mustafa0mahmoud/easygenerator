@@ -66,7 +66,6 @@ import { SessionsService } from './sessions/sessions.service.js';
     VerificationCodeMail,
     PasswordResetCodeMail,
     {
-      // scrypt with OWASP parameters; the cost is configurable per environment.
       provide: PasswordHasher,
       inject: [ConfigService],
       useFactory: (config: ConfigService<Env, true>) =>

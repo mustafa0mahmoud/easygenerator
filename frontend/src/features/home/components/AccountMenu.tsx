@@ -33,14 +33,12 @@ export function AccountMenu() {
   const menuRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
 
-  // Opening moves focus into the menu, as the pattern requires.
   useEffect(() => {
     if (open) {
       menuRef.current?.querySelector<HTMLElement>(ITEM_SELECTOR)?.focus();
     }
   }, [open]);
 
-  // A press outside the menu closes it. Listening only while it is open.
   useEffect(() => {
     if (!open) return undefined;
     const onPointerDown = ({ target }: PointerEvent) => {

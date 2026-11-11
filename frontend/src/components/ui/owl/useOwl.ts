@@ -12,11 +12,8 @@ const BLINK_MS = 140;
 const BLINK_MIN_GAP_MS = 2_400;
 const BLINK_GAP_SPREAD_MS = 3_600;
 
-/** How far a pupil travels, in the drawing's own units. */
 const MAX_LOOK = 6;
-/** Pointer distance (px) at which the pupils reach their full travel. */
 const FULL_LOOK_DISTANCE = 140;
-/** Rough width of a typed character, to aim at the end of the text. */
 const TYPED_CHAR_PX = 8.4;
 const FIELD_PADDING_PX = 14;
 
@@ -97,7 +94,6 @@ export function useOwl<T extends HTMLElement>() {
 
     const onPointerMove = (event: PointerEvent) => {
       if (focused || still) return;
-      // At most one update per frame, however fast the pointer moves.
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => lookAt(event.clientX, event.clientY));
     };

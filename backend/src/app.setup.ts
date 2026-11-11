@@ -43,8 +43,6 @@ export function setupApp(app: NestExpressApplication): void {
     type: VersioningType.URI,
     defaultVersion: DEFAULT_API_VERSION,
   });
-  // Validates every parameter that declares a schema; strict schemas reject
-  // unknown properties.
   app.useGlobalPipes(new StandardSchemaValidationPipe());
   app.enableShutdownHooks();
 

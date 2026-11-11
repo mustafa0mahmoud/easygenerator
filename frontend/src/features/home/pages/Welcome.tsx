@@ -4,7 +4,6 @@ import { useFocusOnMount } from '../../../hooks/useFocusOnMount.ts';
 const TITLE = 'Welcome to the application.';
 const LETTER_DELAY_MS = 45;
 
-/** Letters grouped by word, each with its position in the whole sentence. */
 const WORDS = TITLE.split(' ').reduce<{ letter: string; index: number }[][]>(
   (words, word) => {
     const start = words.flat().length + words.length;
@@ -16,7 +15,6 @@ const WORDS = TITLE.split(' ').reduce<{ letter: string; index: number }[][]>(
   [],
 );
 
-/** The page behind sign-in. Each letter of the title drops in and bounces. */
 export default function WelcomePage() {
   const titleRef = useFocusOnMount<HTMLHeadingElement>();
 

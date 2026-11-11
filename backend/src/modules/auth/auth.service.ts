@@ -258,7 +258,6 @@ export class AuthService {
     return rotated.tokens;
   }
 
-  /** Ends the session server-side. Succeeds whatever the cookie held. */
   async logout(refreshToken: unknown): Promise<void> {
     const revoked = await this.sessions.revoke(refreshToken);
     this.logger.log({ event: 'logout', revoked }, 'Signed out');

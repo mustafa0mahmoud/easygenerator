@@ -20,7 +20,6 @@ function toRecord(user: LeanUser): UserRecord {
   };
 }
 
-/** The only place that talks to the users collection. */
 @Injectable()
 export class UsersRepository {
   constructor(

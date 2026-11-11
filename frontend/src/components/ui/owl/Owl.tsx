@@ -6,11 +6,6 @@ const EYES = [
   { cx: 78, lidX: 60 },
 ] as const;
 
-/**
- * The product's mark, and a bit of company: see `useOwl` for what it does.
- * It is a real button so it can be reached and pressed from the keyboard;
- * pressing it only makes the owl flap.
- */
 export function Owl({ className = '' }: { className?: string }) {
   const ref = useOwl<HTMLButtonElement>();
   const id = useId();

@@ -7,7 +7,6 @@ import type {
 
 const UNAUTHORIZED = 401;
 
-/** An empty or non-JSON body (204, a proxy error page) is "no payload". */
 function parseJson(text: string): unknown {
   if (text.length === 0) return undefined;
   try {
@@ -32,7 +31,6 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
 
   let refreshInFlight: Promise<void> | null = null;
 
-  /** One attempt: send, enforce the timeout, turn a failure into an error. */
   async function send<T>(path: string, options: RequestOptions): Promise<T> {
     const { method = 'GET', body, signal } = options;
     const timeoutMs = options.timeoutMs ?? config.timeoutMs;
@@ -120,7 +118,6 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
         if (!(refreshError instanceof ApiError)) throw refreshError;
       }
 
-      // Sent once more only: a second 401 is final.
       return send<T>(path, options);
     }
   }

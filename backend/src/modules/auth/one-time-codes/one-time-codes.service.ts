@@ -28,7 +28,6 @@ export class OneTimeCodesService {
     this.secret = config.get('OTP_SECRET', { infer: true });
   }
 
-  /** Creates a new code and invalidates any previous one for the same purpose. */
   async issue(
     userId: string,
     purpose: OneTimeCodePurpose,
@@ -82,10 +81,6 @@ export class OneTimeCodesService {
     return inCooldown;
   }
 
-  /**
-   * Checks a submitted code. A correct code is consumed. Every call counts as
-   * an attempt, and the code is destroyed once the attempts run out.
-   */
   async verify(
     userId: string,
     purpose: OneTimeCodePurpose,

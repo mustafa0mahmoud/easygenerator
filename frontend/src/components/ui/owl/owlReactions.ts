@@ -11,10 +11,6 @@ const REPLAY_WINDOW_MS = 1_500;
 
 let lastReaction: { kind: OwlReaction; at: number } | null = null;
 
-/**
- * Forms report an outcome here without knowing where, or whether, an owl is
- * on the page.
- */
 export function owlReact(kind: OwlReaction): void {
   lastReaction = { kind, at: Date.now() };
   window.dispatchEvent(
@@ -22,10 +18,6 @@ export function owlReact(kind: OwlReaction): void {
   );
 }
 
-/**
- * A reaction fired just before a page change would be lost with the old
- * page's owl, so the next owl asks for it once when it appears.
- */
 export function takeRecentOwlReaction(): OwlReaction | null {
   const reaction = lastReaction;
   lastReaction = null;

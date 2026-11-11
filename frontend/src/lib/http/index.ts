@@ -9,7 +9,6 @@ export type {
   RequestOptions,
 } from './interfaces/http.interface.ts';
 
-/** The application's API client. */
 export const http = createHttpClient({
   baseUrl: env.apiBaseUrl,
   timeoutMs: env.requestTimeoutMs,

@@ -41,7 +41,6 @@ export class RefreshTokensRepository {
     return result.deletedCount === 1;
   }
 
-  /** Ends every session of a user. Returns how many were ended. */
   async deleteAllForUser(userId: string): Promise<number> {
     const result = await this.tokenModel
       .deleteMany({ userId: new Types.ObjectId(userId) })

@@ -1,4 +1,3 @@
-/** Shown while the first page's code is being downloaded. */
 export function PageLoader() {
   return (
     <output

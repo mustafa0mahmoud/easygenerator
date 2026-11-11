@@ -6,7 +6,6 @@ import { Types } from 'mongoose';
   timestamps: { createdAt: true, updatedAt: false },
 })
 export class RefreshToken {
-  /** Indexed so every session of a user can be revoked in one operation. */
   @Prop({ type: Types.ObjectId, required: true, index: true })
   userId: Types.ObjectId;
 

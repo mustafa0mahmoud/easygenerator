@@ -59,7 +59,6 @@ export default function SignInPage() {
   } = useForm<SignInValues>({ resolver: zodResolver(signInSchema) });
 
   const submit = handleSubmit((values) => {
-    // A second submit while the first is running would be a duplicate request.
     if (signIn.isPending) return;
     signIn.mutate(values, {
       onSuccess: () => {
@@ -80,7 +79,6 @@ export default function SignInPage() {
   }, shake);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    // From the first attempt on, the form speaks only about that attempt.
     dismissNotice();
     void submit(event);
   };

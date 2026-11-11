@@ -7,7 +7,6 @@ import type { SessionTokens } from './interfaces/session.interface.js';
 export const ACCESS_TOKEN_COOKIE = 'access_token';
 export const REFRESH_TOKEN_COOKIE = 'refresh_token';
 
-/** The access token accompanies every API call. */
 const ACCESS_COOKIE_PATH = '/api';
 /**
  * The refresh token is only needed by the auth routes, so the browser is told

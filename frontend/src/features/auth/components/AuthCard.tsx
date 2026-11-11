@@ -7,11 +7,9 @@ interface AuthCardProps {
   lede?: ReactNode;
   footer?: ReactNode;
   children: ReactNode;
-  /** Lets a page shake the card when a submission is rejected. */
   cardRef?: Ref<HTMLElement>;
 }
 
-/** The frame every auth page shares: the owl mark above a hairline card. */
 export function AuthCard({
   title,
   lede,

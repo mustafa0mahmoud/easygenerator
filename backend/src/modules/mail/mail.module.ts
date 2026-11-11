@@ -6,7 +6,6 @@ import { BrevoTransport } from './brevo.transport.js';
 import { ConsoleMailTransport } from './console.transport.js';
 import type { MailEnv } from './interfaces/mail.interface.js';
 
-/** Picks the transport for this environment. Startup validation guarantees the key. */
 export function createMailTransport(env: MailEnv): MailTransport {
   switch (env.MAIL_DRIVER) {
     case 'brevo':

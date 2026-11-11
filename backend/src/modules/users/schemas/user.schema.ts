@@ -19,7 +19,6 @@ export class User {
   @Prop({ type: String, required: true, select: false })
   passwordHash: string;
 
-  /** `null` until the owner of the address proves it with a verification code. */
   @Prop({ type: Date, default: null })
   emailVerifiedAt: Date | null;
 }

@@ -5,6 +5,5 @@
  */
 export const env = {
   apiBaseUrl: '/api/v1',
-  /** A request with no answer after this long is reported as a timeout. */
   requestTimeoutMs: 15_000,
 } as const;

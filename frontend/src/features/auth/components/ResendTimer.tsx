@@ -9,7 +9,6 @@ const RING_RADIUS = 17;
 const RING_LENGTH = 2 * Math.PI * RING_RADIUS;
 
 interface ResendTimerProps {
-  /** When the last code was requested (timestamp); 0 if never from here. */
   sentAt: number;
   onResend: () => void;
   isSending: boolean;
@@ -17,11 +16,6 @@ interface ResendTimerProps {
 
 const formatTime = (seconds: number) => `0:${String(seconds).padStart(2, '0')}`;
 
-/**
- * "Resend code", locked for a minute after each code. The button stays
- * disabled while the countdown runs and while a resend is in flight, so the
- * same request cannot be fired twice.
- */
 export function ResendTimer({ sentAt, onResend, isSending }: ResendTimerProps) {
   // Capped: the clock reading can be a tick older than a fresh `sentAt`.
   const secondsLeft = Math.min(
