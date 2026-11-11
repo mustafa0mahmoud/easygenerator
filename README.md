@@ -3,6 +3,8 @@
 A sign-up and sign-in module: a NestJS + MongoDB API and a React + TypeScript
 front end.
 
+How AI assistance was used is described in [AI.md](AI.md).
+
 ## Live demo
 
 | What              | Where                                         |
@@ -74,28 +76,28 @@ All configuration comes from environment variables. Copy
 [`.env.example`](.env.example) to `.env`; every variable is described there.
 `.env` is never committed.
 
-| Variable                   | Default                 | Purpose                                                                    |
-| -------------------------- | ----------------------- | -------------------------------------------------------------------------- |
-| `NODE_ENV`                 | `development`           | `development`, `production` or `test`                                      |
-| `PORT`                     | `3000`                  | Port the API listens on                                                    |
-| `MONGODB_URI`              | required                | Connection string, including the database name                             |
-| `LOG_LEVEL`                | `info`                  | `debug` adds a line for every step of a request                            |
-| `LOG_PRETTY`               | `false`                 | Human-readable logs instead of JSON lines (development only)               |
-| `TRUST_PROXY_HOPS`         | `0`                     | Reverse proxies in front of the API, so rate limits see the real client IP |
-| `THROTTLE_TTL_SECONDS`     | `60`                    | Window of the global rate limit                                            |
-| `THROTTLE_LIMIT`           | `100`                   | Requests allowed per window and IP                                         |
-| `SWAGGER_ENABLED`          | `true`                  | Serve the OpenAPI UI at `/api/docs`                                        |
-| `MAIL_DRIVER`              | `console`               | `console` prints emails to the log; `brevo` sends them                     |
-| `MAIL_FROM_NAME`           | `Auth Task`             | Sender name                                                                |
-| `MAIL_FROM_ADDRESS`        | `no-reply@example.com`  | Sender address; with Brevo it must be a verified sender                    |
-| `BREVO_API_KEY`            | none                    | Required when `MAIL_DRIVER=brevo`                                          |
-| `OTP_SECRET`               | required                | Keys the hash of emailed codes; at least 32 characters                     |
-| `JWT_ACCESS_SECRET`        | required                | Signs access tokens; at least 32 characters                                |
-| `ACCESS_TOKEN_TTL_SECONDS` | `900`                   | Access token lifetime (60 to 3600)                                         |
-| `REFRESH_TOKEN_TTL_DAYS`   | `7`                     | Refresh token lifetime                                                     |
-| `COOKIE_SECURE`            | `true`                  | `Secure` attribute on the session cookies; `false` only for local HTTP     |
-| `CSRF_TRUSTED_ORIGINS`     | empty                   | Extra origins allowed to send state-changing requests, comma-separated     |
-| `PASSWORD_HASH_LOG_N`      | `17`                    | scrypt cost (log2 N); 17 is the OWASP minimum                              |
+| Variable                   | Default                | Purpose                                                                    |
+| -------------------------- | ---------------------- | -------------------------------------------------------------------------- |
+| `NODE_ENV`                 | `development`          | `development`, `production` or `test`                                      |
+| `PORT`                     | `3000`                 | Port the API listens on                                                    |
+| `MONGODB_URI`              | required               | Connection string, including the database name                             |
+| `LOG_LEVEL`                | `info`                 | `debug` adds a line for every step of a request                            |
+| `LOG_PRETTY`               | `false`                | Human-readable logs instead of JSON lines (development only)               |
+| `TRUST_PROXY_HOPS`         | `0`                    | Reverse proxies in front of the API, so rate limits see the real client IP |
+| `THROTTLE_TTL_SECONDS`     | `60`                   | Window of the global rate limit                                            |
+| `THROTTLE_LIMIT`           | `100`                  | Requests allowed per window and IP                                         |
+| `SWAGGER_ENABLED`          | `true`                 | Serve the OpenAPI UI at `/api/docs`                                        |
+| `MAIL_DRIVER`              | `console`              | `console` prints emails to the log; `brevo` sends them                     |
+| `MAIL_FROM_NAME`           | `Auth Task`            | Sender name                                                                |
+| `MAIL_FROM_ADDRESS`        | `no-reply@example.com` | Sender address; with Brevo it must be a verified sender                    |
+| `BREVO_API_KEY`            | none                   | Required when `MAIL_DRIVER=brevo`                                          |
+| `OTP_SECRET`               | required               | Keys the hash of emailed codes; at least 32 characters                     |
+| `JWT_ACCESS_SECRET`        | required               | Signs access tokens; at least 32 characters                                |
+| `ACCESS_TOKEN_TTL_SECONDS` | `900`                  | Access token lifetime (60 to 3600)                                         |
+| `REFRESH_TOKEN_TTL_DAYS`   | `7`                    | Refresh token lifetime                                                     |
+| `COOKIE_SECURE`            | `true`                 | `Secure` attribute on the session cookies; `false` only for local HTTP     |
+| `CSRF_TRUSTED_ORIGINS`     | empty                  | Extra origins allowed to send state-changing requests, comma-separated     |
+| `PASSWORD_HASH_LOG_N`      | `17`                   | scrypt cost (log2 N); 17 is the OWASP minimum                              |
 
 The "Default" column is what the API uses when the variable is absent;
 "required" means it refuses to start without it. `.env.example` provides a
@@ -115,18 +117,18 @@ To send real email locally, set `MAIL_DRIVER=brevo`, `BREVO_API_KEY` and a
 All routes are under `/api/v1`. Full request and response schemas are in
 Swagger.
 
-| Method | Route                        | Purpose                                         |
-| ------ | ---------------------------- | ----------------------------------------------- |
-| POST   | `/auth/signup`               | Create an account and email a verification code |
-| POST   | `/auth/verify-email`         | Verify the address with the emailed code        |
-| POST   | `/auth/resend-verification`  | Send a new code                                 |
-| POST   | `/auth/login`                | Sign in; sets the session cookies               |
-| POST   | `/auth/refresh`              | Renew the session (rotates the refresh token)   |
-| POST   | `/auth/logout`               | Sign out; revokes the session server-side       |
-| POST   | `/auth/forgot-password`      | Email a password reset code                     |
-| POST   | `/auth/reset-password`       | Set a new password with the emailed code        |
-| GET    | `/users/me`                  | The signed-in user (protected)                  |
-| GET    | `/health`                    | Liveness and database connectivity              |
+| Method | Route                       | Purpose                                         |
+| ------ | --------------------------- | ----------------------------------------------- |
+| POST   | `/auth/signup`              | Create an account and email a verification code |
+| POST   | `/auth/verify-email`        | Verify the address with the emailed code        |
+| POST   | `/auth/resend-verification` | Send a new code                                 |
+| POST   | `/auth/login`               | Sign in; sets the session cookies               |
+| POST   | `/auth/refresh`             | Renew the session (rotates the refresh token)   |
+| POST   | `/auth/logout`              | Sign out; revokes the session server-side       |
+| POST   | `/auth/forgot-password`     | Email a password reset code                     |
+| POST   | `/auth/reset-password`      | Set a new password with the emailed code        |
+| GET    | `/users/me`                 | The signed-in user (protected)                  |
+| GET    | `/health`                   | Liveness and database connectivity              |
 
 Field rules (enforced by the API, whatever the client does):
 
@@ -204,19 +206,19 @@ Both projects redeploy on every push to `main`.
 Environment variables set on the API project (values live only in the Vercel
 dashboard, never in the repository):
 
-| Variable               | Value                                                |
-| ---------------------- | ---------------------------------------------------- |
-| `PORT`                 | `80`, the port Vercel routes to in a container       |
-| `MONGODB_URI`          | secret                                               |
-| `OTP_SECRET`           | secret, random                                       |
-| `JWT_ACCESS_SECRET`    | secret, random                                       |
-| `MAIL_DRIVER`          | `brevo`                                              |
-| `BREVO_API_KEY`        | secret                                               |
-| `MAIL_FROM_ADDRESS`    | the verified sender                                  |
-| `COOKIE_SECURE`        | `true`                                               |
-| `CSRF_TRUSTED_ORIGINS` | the front end's origin                               |
-| `TRUST_PROXY_HOPS`     | `2`                                                  |
-| `LOG_PRETTY`           | `false`                                              |
+| Variable               | Value                                          |
+| ---------------------- | ---------------------------------------------- |
+| `PORT`                 | `80`, the port Vercel routes to in a container |
+| `MONGODB_URI`          | secret                                         |
+| `OTP_SECRET`           | secret, random                                 |
+| `JWT_ACCESS_SECRET`    | secret, random                                 |
+| `MAIL_DRIVER`          | `brevo`                                        |
+| `BREVO_API_KEY`        | secret                                         |
+| `MAIL_FROM_ADDRESS`    | the verified sender                            |
+| `COOKIE_SECURE`        | `true`                                         |
+| `CSRF_TRUSTED_ORIGINS` | the front end's origin                         |
+| `TRUST_PROXY_HOPS`     | `2`                                            |
+| `LOG_PRETTY`           | `false`                                        |
 
 `NODE_ENV=production` comes from the Dockerfile, so the API enforces
 `COOKIE_SECURE=true`, real secrets and a real mail driver before it starts.
@@ -337,3 +339,18 @@ docker-compose.yml     MongoDB + API + front end
 Each module owns its schemas (the layout used by the NestJS docs). Other
 modules reach the data through the owning module's repository, never through
 the Mongoose model.
+
+## 2. What was AI-assisted
+
+Almost all of the code was written by the assistant. What I own is what it
+was asked to build, the decisions behind it, and the review of every part
+before it was committed.
+| Area | Generated by AI | Decided or changed by me | How it was verified |
+| --- | --- | --- | --- |
+| API foundation | Config validation, logging, error filter, Dockerfile | Everything runs with one Docker command; schema layout taken from the NestJS docs, not the assistant's own | Unit tests, container run |
+| Sign-up and verification | Endpoints, code storage, mail transports | Adding verification at all; a code instead of a link; 5-minute lifetime; a real free mail provider instead of console output only; "already registered" instead of a uniform answer | Tests, real email delivered |
+| Sessions | Token issue, rotation, guard, cookies | Short access token plus refresh, chosen from the options discussed; hand-written sessions instead of a very new library; rate limits on every auth endpoint | Tests, cookie-jar run by hand |
+| Password reset | Service, endpoints, mail | Adding it at all; one shared delivery function instead of two copies | End-to-end journey test, real email |
+| Web app foundation | Fetch client, routing, build setup | Four requirements set before any code: feature folders, code splitting, request cancellation, explicit HTTP error handling | Tests, checked in the browser |
+| Screens and design | Components, forms, animations | The whole look, iterated in a prototype before any React; the owl that watches the fields; the resend countdown | Browser at desktop and phone size |
+| CI and deployment | Workflow, hosting configuration | Deploying at all and giving the reviewer a live link, proposed before the first line of code; nothing pushed until I had reviewed everything | Green run on GitHub, live site |
