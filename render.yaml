@@ -1,0 +1,64 @@
+# Render Blueprint for the API. The web app is deployed separately (Vercel,
+# see frontend/vercel.json) and forwards /api to this service, so the browser
+# only ever talks to one origin.
+#
+# No secret lives in this file. Entries marked `sync: false` are typed into
+# the Render dashboard when the Blueprint is created; `generateValue` lets
+# Render create a random 256-bit value that nobody has to see.
+services:
+  - type: web
+    name: easygenerator-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+      - key: LOG_PRETTY
+        value: 'false'
+      - key: SWAGGER_ENABLED
+        value: 'true'
+
+      # MongoDB Atlas connection string, including the database name.
+      - key: MONGODB_URI
+        sync: false
+
+      # Requests pass through Vercel's proxy and then Render's own. Both are
+      # trusted so rate limits apply to the visitor's address.
+      - key: TRUST_PROXY_HOPS
+        value: '2'
+
+      # HTTPS only: the session cookies must carry the Secure flag.
+      - key: COOKIE_SECURE
+        value: 'true'
+      # The web app's public origin, e.g. https://<project>.vercel.app
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+
+      - key: OTP_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+
+      - key: MAIL_DRIVER
+        value: brevo
+      - key: MAIL_FROM_NAME
+        value: Auth Task
+      # Must be a verified sender in the Brevo account.
+      - key: MAIL_FROM_ADDRESS
+        sync: false
+      - key: BREVO_API_KEY
+        sync: false
+
+      # The free instance has 512 MB of memory. scrypt at the default cost
+      # (2^17) needs ~128 MiB per hash, so a few simultaneous sign-ins would
+      # exhaust it. 2^15 (~32 MiB) keeps the service up; raise it to 17 on an
+      # instance with more memory.
+      - key: PASSWORD_HASH_LOG_N
+        value: '15'
