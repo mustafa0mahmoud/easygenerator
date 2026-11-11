@@ -32,8 +32,23 @@ services:
       PORT: '3000'
       # The runtime image has no dev dependencies, so logs stay JSON.
       LOG_PRETTY: 'false'
+      # Requests arrive through the frontend's nginx: trust that one hop so
+      # rate limits apply to the visitor's address, not to nginx.
+      TRUST_PROXY_HOPS: '1'
     ports:
       - '127.0.0.1:3000:3000'
+
+  frontend:
+    build:
+      context: ./frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      API_UPSTREAM: http://backend:3000
+    ports:
+      - '127.0.0.1:8080:8080'
 
 volumes:
   mongo-data:
