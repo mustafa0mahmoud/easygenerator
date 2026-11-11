@@ -54,7 +54,8 @@ export function mockApi(handlers: ApiHandlers) {
   const calls: { key: string; body: unknown }[] = [];
 
   const fetchMock = vi.fn<typeof fetch>(async (input, init) => {
-    const key = `${init?.method ?? 'GET'} ${String(input).replace('/api/v1', '')}`;
+    const url = input instanceof Request ? input.url : input.toString();
+    const key = `${init?.method ?? 'GET'} ${url.replace('/api/v1', '')}`;
     const body: unknown =
       typeof init?.body === 'string' ? JSON.parse(init.body) : undefined;
     calls.push({ key, body });

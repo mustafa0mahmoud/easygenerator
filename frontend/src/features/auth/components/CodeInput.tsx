@@ -70,10 +70,9 @@ export function CodeInput({
   };
 
   return (
-    <div
-      role="group"
+    <fieldset
       aria-label={label}
-      className="grid grid-cols-6 gap-2 max-[460px]:gap-1.5"
+      className="grid min-w-0 grid-cols-6 gap-2 max-[460px]:gap-1.5"
     >
       {Array.from({ length: LENGTH }, (_, index) => {
         const digit = value[index] ?? '';
@@ -103,6 +102,6 @@ export function CodeInput({
           />
         );
       })}
-    </div>
+    </fieldset>
   );
 }

@@ -77,6 +77,9 @@ export function createHttpClient(config: HttpClientConfig): HttpClient {
 
     const payload = parseJson(text);
     if (!response.ok) throw toApiError(response.status, payload);
+    // The caller names the shape it expects; callers that depend on it
+    // validate the payload with a schema.
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
     return payload as T;
   }
 

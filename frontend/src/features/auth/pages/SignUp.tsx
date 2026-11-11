@@ -22,7 +22,9 @@ const CONFLICT = 409;
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [cardRef, shake] = useShake<HTMLElement>();
-  const signUp = useMutation({ mutationFn: authApi.signUp });
+  const signUp = useMutation({
+    mutationFn: (values: SignUpValues) => authApi.signUp(values),
+  });
   const {
     register,
     handleSubmit,

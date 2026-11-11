@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import {
   OWL_REACTION_EVENT,
   PASSWORD_FIELD_ATTRIBUTE,
+  isOwlReaction,
   takeRecentOwlReaction,
-  type OwlReaction,
 } from './owlReactions.ts';
 
 const REACTION_MS = 650;
@@ -39,7 +39,7 @@ export function useOwl<T extends HTMLElement>() {
 
   useEffect(() => {
     const owl = ref.current;
-    if (!owl) return;
+    if (!owl) return undefined;
 
     const pupils = [...owl.querySelectorAll<SVGGElement>('[data-owl-pupil]')];
     const discs = [
@@ -118,8 +118,11 @@ export function useOwl<T extends HTMLElement>() {
     };
     // Showing or hiding the password changes the input's type, not its value.
     const onClick = () => later(update, 0);
-    const onReact = (event: Event) =>
-      play(`owl-${(event as CustomEvent<OwlReaction>).detail}`, REACTION_MS);
+    const onReact = (event: Event) => {
+      if (event instanceof CustomEvent && isOwlReaction(event.detail)) {
+        play(`owl-${event.detail}`, REACTION_MS);
+      }
+    };
     const onOwlClick = () => {
       play('owl-flying', FLAP_MS);
       play('owl-yes', REACTION_MS);

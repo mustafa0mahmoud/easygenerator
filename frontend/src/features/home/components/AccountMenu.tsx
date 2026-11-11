@@ -42,9 +42,11 @@ export function AccountMenu() {
 
   // A press outside the menu closes it. Listening only while it is open.
   useEffect(() => {
-    if (!open) return;
-    const onPointerDown = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    if (!open) return undefined;
+    const onPointerDown = ({ target }: PointerEvent) => {
+      const pressedInside =
+        target instanceof Node && rootRef.current?.contains(target);
+      if (!pressedInside) setOpen(false);
     };
     document.addEventListener('pointerdown', onPointerDown);
     return () => document.removeEventListener('pointerdown', onPointerDown);
@@ -56,7 +58,7 @@ export function AccountMenu() {
     const items = Array.from(
       event.currentTarget.querySelectorAll<HTMLElement>(ITEM_SELECTOR),
     );
-    const current = items.indexOf(document.activeElement as HTMLElement);
+    const current = items.findIndex((item) => item === document.activeElement);
     const focusItem = (index: number) => {
       event.preventDefault();
       items[(index + items.length) % items.length]?.focus();
@@ -106,6 +108,7 @@ export function AccountMenu() {
           ref={menuRef}
           id={menuId}
           role="menu"
+          tabIndex={-1}
           aria-label="Account"
           onKeyDown={onMenuKeyDown}
           className="absolute top-[calc(100%+8px)] right-0 w-[min(248px,calc(100vw-24px))] origin-top-right animate-pop rounded-xl border border-line bg-surface p-1.5 shadow-[0_18px_40px_rgb(0_0_0/0.6)]"

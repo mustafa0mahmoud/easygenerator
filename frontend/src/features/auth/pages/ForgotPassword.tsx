@@ -22,7 +22,9 @@ import { authApi } from '../services/authApi.ts';
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
   const [cardRef, shake] = useShake<HTMLElement>();
-  const request = useMutation({ mutationFn: authApi.requestPasswordReset });
+  const request = useMutation({
+    mutationFn: (email: string) => authApi.requestPasswordReset(email),
+  });
   const {
     register,
     handleSubmit,

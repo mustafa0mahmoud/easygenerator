@@ -15,7 +15,9 @@ afterEach(() => {
 /** The value shown next to a label in the details list. */
 function valueOf(label: string) {
   const term = screen.getByText(label, { selector: 'dt' });
-  return within(term.parentElement as HTMLElement).getByRole('definition');
+  const row = term.parentElement;
+  if (!row) throw new Error(`No row found for "${label}"`);
+  return within(row).getByRole('definition');
 }
 
 describe('profile page', () => {

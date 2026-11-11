@@ -2,6 +2,9 @@ export type OwlReaction = 'yes' | 'no';
 
 export const OWL_REACTION_EVENT = 'owl:react';
 
+export const isOwlReaction = (value: unknown): value is OwlReaction =>
+  value === 'yes' || value === 'no';
+
 export const PASSWORD_FIELD_ATTRIBUTE = 'data-password-field';
 
 const REPLAY_WINDOW_MS = 1_500;
